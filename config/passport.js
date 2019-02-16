@@ -21,15 +21,17 @@ passport.use(
       passwordField: 'userPW',
     },
     (username, password, done) => {
-      User.findOne({ userID: username }, (err, user) => {
-        if (err) {
-          return done(err);
-        }
-        if (user.userPW === password) {
-          return done(null, user);
-        }
-        return done(null, false);
-      });
+      User.findOne({ userID: username })
+        .then((user) => {
+          if (user) {
+            if (user.userPW === password) {
+              return done(null, user);
+            }
+            return done(null, false);
+          }
+          return done(null, false);
+        })
+        .catch(err => done(err));
     },
   ),
 );

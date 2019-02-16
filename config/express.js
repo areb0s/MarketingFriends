@@ -2,6 +2,7 @@ const express = require('express');
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 const bodyParser = require('body-parser');
+const path = require('path');
 const passport = require('./passport');
 
 const app = express();
@@ -28,5 +29,7 @@ app.use(
 // PASSPORT SETTING
 app.use(passport.initialize());
 app.use(passport.session());
+// STATIC SETTING
+app.use(express.static(path.join(__dirname, '../build')));
 
 module.exports = app;
