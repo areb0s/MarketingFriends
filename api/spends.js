@@ -1,5 +1,4 @@
 const express = require('express');
-const moment = require('moment');
 
 const router = express.Router();
 
@@ -7,59 +6,50 @@ const Spends = require('../models/spends');
 
 router.post('/create', (req, res) => {
   if (req.user) {
-    const spends = new Spends();
-    spends.userID = req.user.userID;
-    spends.goods = req.body.goods;
-    spends.name = req.body.name;
-    spends.price = req.body.price;
-    spends
+    const type = 'spends';
+    const spend = new Spends({
+      ...req.body,
+      userID: req.user.userID,
+    });
+    spend
       .save()
-      .then(res.json('success'))
+      .then(spends => res.json({ type, spends }))
       .catch(err => console.error(err));
   }
 });
 
-router.post('/fatch', (req, res) => {
+router.get('/fatch', (req, res) => {
   if (req.user) {
-    const postDate = moment(req.body.date, 'YYYY/MM');
-    const postDateStart = moment(postDate).startOf('month');
-    const postDateEnd = moment(postDate).endOf('month');
+    const type = 'spends';
     Spends.find({
       userID: req.user.userID,
-      date: {
-        $gte: postDateStart,
-        $lte: postDateEnd,
-      },
     })
-      .then((spends) => {
-        const results = spends.map(spend => ({
-          // eslint-disable-next-line no-underscore-dangle
-          ...spend._doc,
-          date: moment(spend.date).format('YYYY/MM/DD'),
-        }));
-        res.json(results);
-      })
+      .then(spends => res.json({ type, spends }))
       .catch(err => console.error(err));
   }
 });
 
 router.post('/edit', (req, res) => {
   if (req.user) {
+    const type = 'spends';
+    const spends = req.body;
     Spends.updateOne(
       // eslint-disable-next-line no-underscore-dangle
-      { userID: req.user.userID, _id: req.body._id },
-      { $set: req.body },
+      { _id: spends._id, userID: req.user.userID },
+      { $set: spends },
     )
-      .then(res.json('success'))
+      .then(res.json({ type, spends }))
       .catch(err => console.error(err));
   }
 });
 
 router.post('/delete', (req, res) => {
   if (req.user) {
+    const type = 'spends';
+    const spends = req.body;
     // eslint-disable-next-line no-underscore-dangle
     Spends.deleteOne({ userID: req.user.userID, _id: req.body._id })
-      .then(res.json('success'))
+      .then(res.json({ type, spends }))
       .catch(err => console.error(err));
   }
 });
