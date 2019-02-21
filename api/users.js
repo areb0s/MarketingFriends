@@ -27,6 +27,8 @@ router.post('/fatch', (req, res) => {
       admin: req.user.admin,
     };
     res.json(userInfo);
+  } else {
+    res.json({});
   }
 });
 
