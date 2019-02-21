@@ -36,6 +36,11 @@ acorn@^6.0.2:
   resolved "https://registry.yarnpkg.com/acorn/-/acorn-6.0.7.tgz#490180ce18337270232d9488a44be83d9afb7fd3"
   integrity sha512-HNJNgE60C9eOTgn974Tlp3dpLZdUr+SoxxDwPaY9J/kDNOLQTkaDgwBUXAF4SSsrAwD9RpdxuHK/EbuF+W9Ahw==
 
+airbrake-js@^1.6.4:
+  version "1.6.4"
+  resolved "https://registry.yarnpkg.com/airbrake-js/-/airbrake-js-1.6.4.tgz#a634dfcde08a8016f8194b06195cfc546b459120"
+  integrity sha512-dB/B8qph8v9dBU1ibyVQHBvdiGBOcBgY2T++IeFoLcfVIgXNjISReJj8/VL1c/ML6nDaCerdrNUhyOgHAV/NVA==
+
 ajv@^6.5.3, ajv@^6.6.1:
   version "6.8.1"
   resolved "https://registry.yarnpkg.com/ajv/-/ajv-6.8.1.tgz#0890b93742985ebf8973cd365c5b23920ce3cb20"
