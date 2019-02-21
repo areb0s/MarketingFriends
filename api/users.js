@@ -28,7 +28,10 @@ router.post('/fatch', (req, res) => {
     };
     res.json(userInfo);
   } else {
-    res.json({});
+    const userInfo = {
+      userID: false,
+    };
+    res.json(userInfo);
   }
 });
 
