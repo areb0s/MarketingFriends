@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const logger = require('morgan');
 const path = require('path');
 const passport = require('./passport');
+const AirbrakeClient = require('airbrake-js');
+const makeErrorHandler = require('airbrake-js/dist/instrumentation/express');
 
 const app = express();
 
@@ -17,6 +19,12 @@ app.use(
 );
 // LOGGER SETTING
 app.use(logger('dev'));
+// AIRBRAKE SETTING
+const airbrake = new AirbrakeClient({
+  projectId: 215580,
+  projectKey: 'b2abecdbd6f18b37c144c15427bfdbfd',
+});
+app.use(makeErrorHandler(airbrake));
 // SESSION SETTING
 app.use(
   session({
