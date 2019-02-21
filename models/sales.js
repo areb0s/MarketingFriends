@@ -6,7 +6,6 @@ const saleSchema = new Schema({
   userID: String,
   goods: String,
   company: String,
-  name: String,
   contact: String,
   price: { type: Number, default: 0 },
   spend: { type: Number, default: 0 },
