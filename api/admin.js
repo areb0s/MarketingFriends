@@ -13,14 +13,12 @@ router.post('/create', (req, res) => {
     user.userPW = req.body.userPW;
     user.userAKA = req.body.userAKA;
     user.admin = req.body.admin;
-    user.save((err) => {
-      if (err) {
+    user
+      .save()
+      .then(users => res.json(users))
+      .catch((err) => {
         console.error(err);
-        res.json({ result: 0 });
-        return;
-      }
-      res.json({ result: 1 });
-    });
+      });
   } else {
     res.redirect('/');
   }
@@ -29,7 +27,7 @@ router.post('/create', (req, res) => {
 router.get('/fatch', (req, res) => {
   if (req.user.admin) {
     User.find({})
-      .then(user => res.json(user))
+      .then(users => res.json(users))
       .catch(err => console.error(err));
   }
 });
@@ -51,7 +49,7 @@ router.post('/edit', (req, res) => {
       { _id: req.body._id },
       { $set: req.body },
     )
-      .then(res.json('success'))
+      .then(res.json(req.body))
       .catch(err => console.error(err));
   }
 });
@@ -60,7 +58,7 @@ router.post('/delete', (req, res) => {
   if (req.user.admin) {
     // eslint-disable-next-line no-underscore-dangle
     User.deleteOne({ _id: req.body._id })
-      .then(res.json('success'))
+      .then(res.json(req.body))
       .catch(err => console.error(err));
   }
 });
