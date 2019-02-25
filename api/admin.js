@@ -58,7 +58,15 @@ router.post('/delete', (req, res) => {
   if (req.user.admin) {
     // eslint-disable-next-line no-underscore-dangle
     User.deleteOne({ _id: req.body._id })
-      .then(res.json(req.body))
+      .then(
+        Sales.deleteMany({ userID: req.body.userID })
+          .then(
+            Spends.deleteMany({ userID: req.body.userID })
+              .then(res.json(req.body))
+              .catch(err => console.error(err)),
+          )
+          .catch(err => console.error(err)),
+      )
       .catch(err => console.error(err));
   }
 });
